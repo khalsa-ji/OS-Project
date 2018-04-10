@@ -6,8 +6,8 @@
 
 				// Function prototypes.
 void *reader(void *);		// For allowing controlled access(prioritised among writers) to perform _read().
-void _read(void *, int);	// For displaying and performing basic read operation.
 void *writer(void *);		// For allowing controlled access(among other writers) to perform _write().
+void _read(void *, int);	// For displaying and performing basic read operation.
 void _write(void *, int);	// For displaying and performing basic write operation.
 
 				// Global variables.
