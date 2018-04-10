@@ -116,3 +116,25 @@ void *writer(void *id)
 }
 		// ENDS here...
 
+	// 3. Function for displaying and performing basic read operation begins from here...
+void _read(void *id, int turn)
+{
+	printf("\tReader thread %d: \n", (int *)id);
+	printf("* Value read: %d\n", sharedVariable);
+	printf("* Turn: %d\n", turn);
+	printf("* No. of readers present: %d\n", count_readers);
+	printf("\n");
+}
+		// ENDS here...
+
+	// 4. Function for displaying and performing basic write operation begins from here...
+void _write(void *id, int turn)
+{
+	sharedVariable = rand() % 1000;
+	printf("\tWriter thread %d: \n", (int *)id);
+	printf("* Value written: %d\n", sharedVariable);
+	printf("* Turn: %d\n", turn);
+	printf("* No. of readers present: %d\n", count_readers);
+	printf("\n");
+}
+		// ENDS here...
