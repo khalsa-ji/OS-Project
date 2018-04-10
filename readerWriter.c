@@ -7,6 +7,8 @@
 				// Function prototypes.
 void *reader(void *);		// For allowing controlled access(prioritised among writers) to perform _read().
 void _read(void *, int);	// For displaying and performing basic read operation.
+void *writer(void *);		// For allowing controlled access(among other writers) to perform _write().
+void _write(void *, int);	// For displaying and performing basic write operation.
 
 				// Global variables.
 int x, count_readers = 0, sharedVariable = 100;
@@ -86,6 +88,30 @@ void *reader(void *id)
 	count_readers--;	// Decrementing reader's count by 1.
 	if(count_readers == 0)	pthread_mutex_unlock(&lock_writer);		// Allowing writers to access the sharedVariable, if they are willing to.
 	pthread_mutex_unlock(&lock_reader);
+	pthread_exit(0);
+}
+		// ENDS here...
+
+	// 2. Function for allowing controlled access(among other writers) to perform _write(), begins from here...
+void *writer(void *id)
+{
+	int i = x, randTime;
+	srand(time(0));
+	randTime = rand() % 500;
+	usleep(randTime);
+	
+		// Writing the sharedVariable 'x' number of times.
+	while(i)
+	{
+		if(count_readers == 0)
+		{
+			pthread_mutex_lock(&lock_writer);
+			_write(id, x-i+1);
+			i--;
+			pthread_mutex_unlock(&lock_writer);
+		}
+	}
+	
 	pthread_exit(0);
 }
 		// ENDS here...
